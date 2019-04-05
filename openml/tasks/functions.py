@@ -126,7 +126,8 @@ def _get_estimation_procedure_list():
     return procs
 
 
-def list_tasks(task_type_id=None, offset=None, size=None, tag=None, **kwargs):
+def list_tasks(task_type_id=None, offset=None, size=None, tag=None,
+               output_format='dict', **kwargs):
     """
     Return a number of tasks having the given tag and task_type_id
     Parameters
@@ -151,6 +152,10 @@ def list_tasks(task_type_id=None, offset=None, size=None, tag=None, **kwargs):
         the maximum number of tasks to show
     tag : str, optional
         the tag to include
+    output_format: str, optional (default='dict')
+        The parameter decides the format of the output.
+        - If 'dict' the output is a dict of dict
+        - If 'dataframe' the output is a pandas DataFrame
     kwargs: dict, optional
         Legal filter operators: data_tag, status, data_id, data_name,
         number_instances, number_features,
@@ -163,8 +168,9 @@ def list_tasks(task_type_id=None, offset=None, size=None, tag=None, **kwargs):
         task id, dataset id, task_type and status. If qualities are calculated
         for the associated dataset, some of these are also returned.
     """
-    return openml.utils._list_all(_list_tasks, task_type_id=task_type_id,
-                                  offset=offset, size=size, tag=tag, **kwargs)
+    return openml.utils._list_all(output_format, _list_tasks,
+                                  task_type_id=task_type_id, offset=offset,
+                                  size=size, tag=tag, **kwargs)
 
 
 def _list_tasks(task_type_id=None, **kwargs):
